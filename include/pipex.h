@@ -6,7 +6,7 @@
 /*   By: bloisel <bloisel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:09:27 by bloisel           #+#    #+#             */
-/*   Updated: 2023/02/13 11:12:30 by bloisel          ###   ########.fr       */
+/*   Updated: 2023/02/25 16:00:45 by bloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,9 @@ typedef struct s_data
 {
 	int		error;
 }	t_data;
+
+void    print_tab(char **tab);
+void	printf_error(t_data *dta, char *str);
+void	ft_exit(t_data *dta);
 
 #endif
