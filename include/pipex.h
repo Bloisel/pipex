@@ -6,7 +6,7 @@
 /*   By: bloisel <bloisel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:09:27 by bloisel           #+#    #+#             */
-/*   Updated: 2023/03/17 13:15:36 by bloisel          ###   ########.fr       */
+/*   Updated: 2023/03/18 14:13:33 by bloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_data
 	char	**path;
 	int		error;
 	int		infile;
+	char*	cmd1;
+	char*	cmd2;	
 	int		outfile;
 }	t_data;
 

@@ -6,7 +6,7 @@
 /*   By: bloisel <bloisel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:11:23 by bloisel           #+#    #+#             */
-/*   Updated: 2023/03/17 16:51:35 by bloisel          ###   ########.fr       */
+/*   Updated: 2023/03/18 15:19:30 by bloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,45 +19,59 @@ void	init_data(t_data *dta)
 	error = 0;
 }
 
-char	*look_road(char **env,t_data *dta)
+char	*look_road(char **env, t_data *dta)
 {
 	while (ft_strncmp("PATH", *env, 4))
 	{
 		env++;
 	}
 	dta->envh = *env + 5;
-	return(*env + 5);
+	return (*env + 5);
 }
 
-void	path(char *env, t_data *dta, char **envb)
+char	*path(char *env, t_data *dta, char* cm)
 {
-	int i;
-	int j;
-
-	j = 0;
+	int 	i;
+	int 	j;
 	char	*cmd;
 
+	j = 0;
 	i = -1;
-	dta->path = ft_split(dta->envh, ':');
-	ft_printf("%s\n",dta->envh);
 	while (dta->path[++i])
 	{
-		cmd = ft_strjoin(dta->path, "/ls");
-		access(cmd, F_OK);
-		//execve(cmd, dta->path, envb);
-		//perror("Error");
-		// j++;
+		cmd = ft_strjoin(dta->path[i], cm);
+		if (!access(cmd, F_OK))
+		{
+			free(cm);
+			return (cmd);
+		}
 		free(cmd);
-	}	
+	}
+	free(cm);
+	return (NULL);
 }
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
-	t_data dta;
-	char **envb;
-	envb = env;
-	// usr/bin (le + de cmd)
-	printf("%s\n",look_road(env, &dta));
-	path(dta.envh, &dta, envb);
+	t_data	dta;
+
+	if (argc != 5)
+		printf_error(&dta, "Error\n");
+	dta.infile = open(argv[1], O_RDONLY);
+	dta.outfile = open(argv[4], O_CREAT | O_RDWR | O_TRUNC | 0644);
+	if (dta.infile < 0 || dta.outfile < 0)
+		printf_error("Error\n");
+	look_road(env, &dta);
+	dta.path = ft_split(dta.envh, ':');
+	dta.cmd1 = path(dta.envh, &dta, ft_strjoin("/", argv[2]));
+	if (!dta.cmd1)
+	{
+		exit(1);
+	}
+	dta.cmd2 = path(dta.envh, &dta, ft_strjoin("/", argv[3]));
+	if (!dta.cmd2)
+	{
+		exit(1);
+	}
 	return (0);
 }
