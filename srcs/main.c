@@ -6,7 +6,7 @@
 /*   By: bloisel <bloisel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:11:23 by bloisel           #+#    #+#             */
-/*   Updated: 2023/03/18 15:19:30 by bloisel          ###   ########.fr       */
+/*   Updated: 2023/03/19 16:52:44 by bloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*path(char *env, t_data *dta, char* cm)
 		cmd = ft_strjoin(dta->path[i], cm);
 		if (!access(cmd, F_OK))
 		{
+			printf("%s\n",cm);
 			free(cm);
 			return (cmd);
 		}
@@ -54,24 +55,28 @@ char	*path(char *env, t_data *dta, char* cm)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	dta;
-
-	if (argc != 5)
-		printf_error(&dta, "Error\n");
-	dta.infile = open(argv[1], O_RDONLY);
-	dta.outfile = open(argv[4], O_CREAT | O_RDWR | O_TRUNC | 0644);
-	if (dta.infile < 0 || dta.outfile < 0)
-		printf_error("Error\n");
+dta.pid1 = fork();
+	printf("ok main\n");
+	// dta.pid1 = fork();
+	// if (argc != 5)
+	// 	printf_error(&dta, "Error\n");
+	// dta.infile = open(argv[1], O_RDONLY);
+	// dta.outfile = open(argv[4], O_CREAT | O_RDWR | O_TRUNC | 0644);
+	// if (dta.infile < 0 || dta.outfile < 0)
+	// 	printf_error(&dta, "Error\n");
 	look_road(env, &dta);
 	dta.path = ft_split(dta.envh, ':');
-	dta.cmd1 = path(dta.envh, &dta, ft_strjoin("/", argv[2]));
-	if (!dta.cmd1)
-	{
-		exit(1);
-	}
-	dta.cmd2 = path(dta.envh, &dta, ft_strjoin("/", argv[3]));
-	if (!dta.cmd2)
-	{
-		exit(1);
-	}
+	dta.cmd1 = path(dta.envh, &dta, ft_strjoin("/", argv[1]));
+	// if (!dta.cmd1)
+	// {
+	// 	exit(1);
+	// }
+	child(argv, env, &dta);
+	// dta.pid1 = fork();
+	// dta.cmd2 = path(dta.envh, &dta, ft_strjoin("/", argv[3]));
+	// if (!dta.cmd2)
+	// {
+	// 	exit(1);
+	// }
 	return (0);
 }

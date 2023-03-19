@@ -6,7 +6,7 @@
 #    By: bloisel <bloisel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 13:01:59 by bloisel           #+#    #+#              #
-#    Updated: 2023/02/25 16:03:16 by bloisel          ###   ########.fr        #
+#    Updated: 2023/03/18 17:29:24 by bloisel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ PTFNAME = libftprintf.a
 CFLAGS =-Wall -Werror -Wextra -g
 
 SRCS = srcs/main.c \
+		srcs/child.c \
 		srcs/utils.c \
 
 OBJS	= $(SRCS:.c=.o)
