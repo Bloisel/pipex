@@ -6,7 +6,7 @@
 /*   By: bloisel <bloisel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:11:23 by bloisel           #+#    #+#             */
-/*   Updated: 2023/04/12 18:32:09 by bloisel          ###   ########.fr       */
+/*   Updated: 2023/04/13 15:57:35 by bloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ void	init_data(t_data *dta)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	dta;
+	pid_t pid1;
 	int status;
-	pid_t pid;
+
 	init_data(&dta);
 	if (argc != 5)
 		printf_error(&dta, "Error\n");
 	dta.infile = open(argv[1], O_RDONLY);
-	dta.outfile = open(argv[argc -1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	dta.outfile = open(argv[argc -1], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (dta.infile < 0 || dta.outfile < 0)
 		printf_error(&dta, "Error");
 	look_road(env, &dta);
@@ -39,14 +40,13 @@ int	main(int argc, char **argv, char **env)
 	{
 		exit(1);
 	}
-	pipe(dta.pipefd);
-	pid = fork();
+	pid1 = fork();
 	printf("%s\n",dta.cmd_ar[0]);
 	printf("%s\n",dta.cmd_ar[1]);
 	printf("%s\n",dta.cmd1);
-	if (pid == -1)
+	if (pid1 == -1)
 		exit(1);
-	if (pid == 0)
+	if (pid1 == 0)
 	{
 		printf("ok1\n");
 		first_process(argv, &dta, env);
@@ -54,18 +54,15 @@ int	main(int argc, char **argv, char **env)
 	}
 	else
 	{
-		waitpid(-1, &status, 0);
-		printf("okokokko\n");
+		waitpid(pid1, NULL, 0);	
+		printf("nouykka");
 		dta.cmd_ar2 = ft_split(argv[3], ' ');
 		dta.cmd2 = path(dta.envh, &dta, ft_strjoin("/", dta.cmd_ar2[0]));
-		if (!dta.cmd2)
-		{
-			exit(1);
-		}
-		printf("%s\n",dta.cmd_ar2[1]);
+		second_process(argv, &dta, env, status);
 	}
-    // if (execve(dta.cmd1, &dta.cmd_ar[0], env) == -1)
-    // 		perror("execve");
+	close(dta.pipefd[0]);
+	close(dta.pipefd[1]);
+	waitpid(pid1, NULL, 0);
 	printf("test\n");
 	return (0);
 }
