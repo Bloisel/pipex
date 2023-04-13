@@ -6,7 +6,7 @@
 /*   By: bloisel <bloisel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:09:27 by bloisel           #+#    #+#             */
-/*   Updated: 2023/04/12 18:36:29 by bloisel          ###   ########.fr       */
+/*   Updated: 2023/04/13 17:46:14 by bloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,25 @@ typedef struct s_data
 	char	**path;
 	int		error;
 	int		infile;
-	char*	cmd1;
-	char*	cmd2;
-	pid_t 	pid1;
-	pid_t 	pid2;	
+	char	*cmd1;
+	char	*cmd2;
+	pid_t	pid1;
+	pid_t	pid2;	
 	int		outfile;
-	int 	pipefd[2];
-	char 	**cmd_ar;
-	char 	**cmd_ar2;
+	int		pipefd[2];
+	char	**cmd_ar;
+	char	**cmd_ar2;
 	int		status;
 }	t_data;
 
 char	*look_road(char **env, t_data *dta);
-char	*path(char *env, t_data *dta, char* cm);
-void    print_tab(char **tab);
+char	*path(char *env, t_data *dta, char *cm);
+void	print_tab(char **tab);
 void	printf_error(t_data *dta, char *str);
 void	ft_exit(t_data *dta);
-void 	first_process(char **argv, t_data *dta, char **env);
-void	second_process(char **argv, t_data *dta, char **env, int status);
+void	first_process(char **argv, t_data *dta, char **env);
+void	second_process(char **argv, t_data *dta, char **env);
+int		pathfinder2(char **argv, char **env, t_data *dta);
+int		pathfinder(char **argv, char **env, t_data *dta);
 
 #endif
